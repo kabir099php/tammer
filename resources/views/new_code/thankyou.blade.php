@@ -173,7 +173,7 @@
 
         // Function to handle PDF download via AJAX
         function downloadPdfInvoice(orderId) {
-            const invoiceUrl = `https://trymajlis.com/invoice/${orderId}`; // Construct the URL
+            const invoiceUrl = `https://waslqr.com/invoice/${orderId}`; // Construct the URL
 
             fetch(invoiceUrl, {
                 method: 'GET',

@@ -20,6 +20,7 @@ class EdfapayController extends Controller
      */
     public function initiatePayment(Request $request)
     {
+     
         // 1. Validate incoming request data from your frontend
         $request->validate([
             'order_id' => 'required|string|max:255',
@@ -54,7 +55,7 @@ class EdfapayController extends Controller
                 Log::error('Edfapay MERCHANT_PASSWORD not set in environment variables.');
                 return response()->json(['message' => 'Payment gateway not configured correctly.'], 500);
             }
-
+            
             // Prepare the data payload as FormData
             $formData = [
                 'action' => 'SALE', // For immediate authorization and capture

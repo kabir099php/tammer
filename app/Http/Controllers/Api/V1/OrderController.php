@@ -955,7 +955,7 @@ class OrderController extends Controller
             $order->store_discount_amount = round($store_discount_amount, config('round_up_to_digit'));
             $order->tax_percentage = $tax;
             $order->total_tax_amount = round($total_tax_amount, config('round_up_to_digit'));
-            $order->order_amount = round($total_price + $tax_a + $order->delivery_charge, config('round_up_to_digit'));
+            $order->order_amount = $total_price + $tax_a + $order->delivery_charge;
             $order->free_delivery_by = $free_delivery_by;
         } else {
             $point = new Point(json_decode($request->receiver_details, true)['latitude'], json_decode($request->receiver_details, true)['longitude']);
@@ -970,7 +970,7 @@ class OrderController extends Controller
             }
             $order->delivery_charge = round($original_delivery_charge, config('round_up_to_digit')) ?? 0;
             $order->original_delivery_charge = round($original_delivery_charge, config('round_up_to_digit'));
-            $order->order_amount = round($order->delivery_charge, config('round_up_to_digit'));
+            $order->order_amount = ($order->delivery_charge );
         }
         $order->flash_admin_discount_amount = round($flash_sale_admin_discount_amount, config('round_up_to_digit'));
         $order->flash_store_discount_amount = round($flash_sale_vendor_discount_amount, config('round_up_to_digit'));
@@ -998,7 +998,7 @@ class OrderController extends Controller
                 ]
             ], 203);
         }
-
+        
         try {
             DB::beginTransaction();
             $order->save();

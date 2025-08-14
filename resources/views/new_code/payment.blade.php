@@ -355,7 +355,10 @@
                 unknownError: "Unknown error",
                 networkError: "An error occurred during payment. Please try again.",
                 orderConfirmationFailed: "Failed to confirm order details: ",
-                confirmingOrder: "Confirming order details..."
+                confirmingOrder: "Confirming order details...",
+                invalidName: "Name must be 1-15 letters long.",
+        invalidPhone: "Phone number must be a number.",
+        invalidEmail: "Please enter a valid email address."
             },
             ar: {
                 pageTitle: "الدفع وإتمام الطلب",
@@ -388,7 +391,10 @@
                 unknownError: "خطأ غير معروف",
                 networkError: "حدث خطأ أثناء الدفع. الرجاء المحاولة مرة أخرى.",
                 orderConfirmationFailed: "فشل تأكيد تفاصيل الطلب: ",
-                confirmingOrder: "جاري تأكيد تفاصيل الطلب..."
+                confirmingOrder: "جاري تأكيد تفاصيل الطلب...",
+                invalidName: "يجب أن يتكون الاسم من 1-15 حرفًا.",
+                invalidPhone: "يجب أن يكون رقم الهاتف رقمًا.",
+                invalidEmail: "الرجاء إدخال عنوان بريد إلكتروني صالح."
             }
         };
 
@@ -496,6 +502,29 @@
                 const customerName = document.getElementById('customer-name').value || 'Taameer';
                 const customerEmail = document.getElementById('customer-email').value || 'Faris.ali@wasltec.com';
                 const customerPhone = removeSpacesAndKeepLastNine(document.getElementById('customer-phone').value || '509108875'); // Assuming '000000000' is your desired default for phone number.
+
+
+                  // --- Start of New Validation Logic ---
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    
+                    if (!customerName || customerName.length > 15) {
+                        
+                        alert(translations[currentLang].invalidName);
+                        return;
+                    }
+                    
+                    if (isNaN(customerPhone) || customerPhone.trim() === '') {
+                        
+                        alert(translations[currentLang].invalidPhone);
+                        return;
+                    }
+
+                    if (!emailRegex.test(customerEmail)) {
+                        
+                        alert(translations[currentLang].invalidEmail);
+                        return;
+                    }
+                    // --- End of New Validation Logic ---
                     
                 if (!customerName || !customerEmail || !customerPhone) {
                     

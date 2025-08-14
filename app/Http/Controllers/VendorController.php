@@ -155,7 +155,7 @@ class VendorController extends Controller
         
         $store->phone = $request->phone;
         $store->email = $request->email;
-        $store->logo = null;
+        $store->logo = Helpers::upload('store/', 'png', $request->file('logo'));;
         $store->cover_photo = null;
         $store->address =null;
         $store->latitude = 0;

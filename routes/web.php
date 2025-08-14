@@ -65,6 +65,7 @@ Route::get('/feedback', function (Request $request) {
 
 
 Route::get('taameer', 'HomeController@details')->name('details');
+Route::get('details', 'HomeController@details')->name('details');
 Route::get('details1', 'HomeController@details1')->name('details1');
 
 Route::domain('{branch}.waslqr.com')->group(function () {

@@ -216,6 +216,42 @@
                                                      required>
                                             </div>
                                         </div>
+                                         <div class="form-group d-flex flex-column justify-content-between">
+                                            <label class="input-label pt-2 mb-2">
+                                                <div class="lh-1">{{ translate('messages.logo') }}<span class="text-danger">*</span></div>
+                                                <div class="fs-12 opacity-70">
+                                                    {{ translate('messages.JPG, JPEG, PNG Less Than 2MB') }}
+                                                    <strong> {{ translate('(Ratio 1:1)') }}
+                                                    </strong>
+                                                </div>
+                                            </label>
+                                            <label
+                                                class="image--border position-relative img--100px w-100 h-110 max-w-110">
+                                                <img class="__register-img h-110" id="logoImageViewer"
+                                                    src="{{ asset('public/assets/admin/img/upload-img.png') }}"
+                                                    alt="Product thumbnail" style="display: none" />
+                                                <div class="upload-file__textbox p-2 h-100">
+                                                    <img width="34" height="34"
+                                                        src="{{ asset('public/assets/admin/img/document-upload.png') }}"
+                                                        alt="" class="svg">
+                                                    <h6 class="mt-2 text-center font-semibold fs-12">
+                                                        <span
+                                                            class="text-info">{{ translate('messages.Click to upload') }}</span>
+                                                        <br>
+                                                        {{ translate('messages.or drag and drop') }}
+                                                    </h6>
+                                                </div>
+                                                <div class="icon-file-group d-none">
+                                                    <div class="icon-file">
+                                                        <input type="file" name="logo" id="customFileEg1"
+                                                            class="form-control __form-control"
+                                                            accept=".webp, .jpg, .png, .jpeg|image/*">
+                                                        <img src="{{ asset('public/assets/admin/img/pen.png') }}"
+                                                            alt="">
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -647,27 +683,8 @@
                 } else if ($('#address').val().length === 0) {
                     toastr.error("{{ translate('vendor_address_is_required') }}");
                     e.preventDefault();
-                } else if (!$('#choice_zones').val()) {
-                    toastr.error("{{ translate('You_must_select_a_zone') }}");
-                    e.preventDefault();
-                } else if (!$('#module_id').val()) {
-                    toastr.error("{{ translate('You_must_select_a_module') }}");
-                    e.preventDefault();
-                } else if ($('#latitude').val().length === 0) {
-                    toastr.error("{{ translate('Must_click_on_the_map_for_lat/long') }}");
-                    e.preventDefault();
-                } else if ($('#longitude').val().length === 0) {
-                    toastr.error("{{ translate('Must_click_on_the_map_for_lat/long') }}");
-                    e.preventDefault();
-                } else if ($('#tax').val().length === 0) {
-                    toastr.error("{{ translate('tax_is_required') }}");
-                    e.preventDefault();
-                } else if ($('#minimum_delivery_time').val().length === 0) {
-                    toastr.error("{{ translate('minimum_delivery_time_is_required') }}");
-                    e.preventDefault();
-                } else if ($('#max_delivery_time').val().length === 0) {
-                    toastr.error("{{ translate('max_delivery_time_is_required') }}");
-                    e.preventDefault();
+                
+                
                 } else if ($('#f_name').val().length === 0) {
                     toastr.error("{{ translate('first_name_is_required') }}");
                     e.preventDefault();

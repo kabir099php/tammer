@@ -41,18 +41,39 @@
         body.rtl .star-rating { flex-direction: row-reverse; }
     </style>
 </head>
-<body class="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-[#DBDAD6] to-[#DBDAD6]"> <div class="main-container w-full bg-white rounded-xl shadow-2xl overflow-hidden md:flex transform transition-all duration-300 hover:scale-[1.005]">
+<?php
+        $name = $store->vendor_name_ar; // Or whatever your default is or passed from controller
+        
+        $contact = $store->phone; 
+        $vendor = \App\Models\Vendor::where('id',$store->vendor_id)->first();
+        $crn = $vendor->crn;
+        $currency = $currency;
+        $storeId = $store->id ?? 'defaultStoreId'; 
+    ?>
+<body class="p-4 sm:p-6 md:p-8 bg-gradient-to-br from-[#DBDAD6] to-[#DBDAD6]"> 
+    <div class="main-container w-full bg-white rounded-xl shadow-2xl overflow-hidden md:flex transform transition-all duration-300 hover:scale-[1.005]">
         <div class="absolute top-4 right-4 z-10 flex space-x-2 fade-in delay-0" style="display:none">
-            <button id="lang-en" class="px-4 py-2 bg-[#EDAA4B] text-white rounded-lg shadow-md hover:bg-[#D4933F] focus:outline-none focus:ring-2 focus:ring-[#D4933F] focus:ring-opacity-75 transition duration-200">EN</button> <button id="lang-ar" class="px-4 py-2 bg-[#B0ACA7] text-gray-700 rounded-lg shadow-md hover:bg-[#9B9994] focus:outline-none focus:ring-2 focus:ring-[#9B9994] focus:ring-opacity-75 transition duration-200">AR</button> </div>
+            <button id="lang-en" class="px-4 py-2 bg-[#EDAA4B] text-white rounded-lg shadow-md hover:bg-[#D4933F] focus:outline-none focus:ring-2 focus:ring-[#D4933F] focus:ring-opacity-75 transition duration-200">EN</button> 
+            <button id="lang-ar" class="px-4 py-2 bg-[#B0ACA7] text-gray-700 rounded-lg shadow-md hover:bg-[#9B9994] focus:outline-none focus:ring-2 focus:ring-[#9B9994] focus:ring-opacity-75 transition duration-200">AR</button> 
+        </div>
 
-        <div class="p-6 sm:p-8 flex flex-col md:w-1/2 lg:w-2/5 justify-between bg-gradient-to-br from-[#838484] to-[#606060] text-white relative rounded-t-xl md:rounded-l-xl md:rounded-tr-none fade-in delay-100"> <div>
+        <div class="p-6 sm:p-8 flex flex-col md:w-1/2 lg:w-2/5 justify-between bg-gradient-to-br from-[#838484] to-[#606060] text-white relative rounded-t-xl md:rounded-l-xl md:rounded-tr-none fade-in delay-100"> 
+            <div>
                 <div class="flex items-center space-x-4 mb-6">
-                    <!-- <div class="flex-shrink-0">
+                    <div class="flex-shrink-0">
+                        @if($store->logo)
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-inner">
+                            <img src="{{url('/storage/app/public/store/')}}/{{$store->logo}}">
+                        </div>
+                        @else
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-inner">O</div>
-                    </div> -->
+                        @endif
+                        
+                    </div>
                     <div>
                         <h1 style="margin-right:10px" class="text-3xl sm:text-4xl font-extrabold mb-1" data-key="sellerName"></h1>
-                        <p style="margin-right:10px" class="text-[#EDAA4B] text-lg" data-key="sellerTagline"></p> </div>
+                        <p style="margin-right:10px" class="text-[#EDAA4B] text-lg" data-key="sellerTagline"></p> 
+                    </div>
                 </div>
 
                 <div class="mb-8">
@@ -84,26 +105,25 @@
 
             <div class="text-center mt-auto fade-in delay-300">
                 <h2 class="text-2xl font-bold text-white mb-4 border-b-2 border-[#EDAA4B] pb-2 heading-rtl-align" data-key="qrCodeHeading"></h2> <div class="bg-white p-6 rounded-lg inline-block shadow-lg border-2 border-[#EDAA4B]" style="padding: 1rem !important"> <div id="qrcode" class="w-44 h-44 rounded-md mx-auto transform transition-transform duration-300 hover:scale-105" style="height:10rem !important;"></div>
-                    <p class="mt-4 text-[#838484] text-sm" data-key="qrCodeDescription"></p> </div>
+                    <p class="mt-4 text-[#838484] text-sm" data-key="qrCodeDescription"></p> 
+                </div>
             </div>
         </div>
 
-        <div class="p-6 sm:p-8 flex flex-col md:w-1/2 lg:w-3/5 bg-white rounded-b-xl md:rounded-r-xl md:rounded-bl-none">
+        <div class="p-6 sm:p-8 flex flex-col md:w-1/2 lg:w-3/5 bg-white rounded-b-xl md:rounded-r-xl md:rounded-bl-none relative">
             <div class="mb-8 fade-in delay-200 flex-grow overflow-y-auto">
-                <h2 class="text-3xl font-bold text-[#838484] mb-6 border-b-2 border-[#EDAA4B] pb-2 heading-rtl-align" data-key="productPricesHeading"></h2> <ul id="product-list" class="space-y-4"></ul>
+                <h2 class="text-3xl font-bold text-[#838484] mb-6 border-b-2 border-[#EDAA4B] pb-2 heading-rtl-align" data-key="productPricesHeading"></h2> 
+                <ul id="product-list" class="space-y-4"></ul>
+            </div>
+            
+            <div class="absolute bottom-4 left-4 z-10">
+                <a href="https://riyadh.dev" target="_blank">
+                    <img src="https://riyadh.dev/wp-content/uploads/2024/11/logo.svg" alt="Powered by Riyadh.dev" class="h-8 w-auto">
+                </a>
             </div>
         </div>
     </div>
-    <?php
-        $name = $store->vendor_name_ar; // Or whatever your default is or passed from controller
-        
-        $contact = $store->phone; 
-        $vendor = \App\Models\Vendor::where('id',$store->vendor_id)->first();
-        $crn = $vendor->crn;
-        $currency = $currency;
-        $storeId = $store->id ?? 'defaultStoreId'; 
-    ?>
-
+    
     <script src="https://unpkg.com/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script>
         const name = @json($name);

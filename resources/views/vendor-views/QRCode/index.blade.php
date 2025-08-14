@@ -180,7 +180,7 @@
             let qrCodeInstance = null; // To store the QR code instance for cleanup
 
             const urls = {
-                checkout: `https://${store_name}.waslqr.com/taameer`,
+                checkout: `https://${store_name}.waslqr.com/details`,
                 scanner: '{{env('APP_URL')}}/barcode',
             };
 

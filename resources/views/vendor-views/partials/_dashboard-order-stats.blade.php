@@ -35,11 +35,11 @@
 
 <div class="col-sm-6 col-lg-3">
     <!-- Card -->
-    <a class="resturant-card dashboard--card card--bg-4" href="{{route('vendor.order.list',['item_on_the_way'])}}">
+    <!-- <a class="resturant-card dashboard--card card--bg-4" href="{{route('vendor.order.list',['item_on_the_way'])}}">
        <h4 class="title">{{$data['item_on_the_way']}}</h4>
        <span class="subtitle">{{translate('messages.item_on_the_way')}}</span>
        <img src="{{asset('public/assets/admin/img/dashboard/4.png')}}" alt="img" class="resturant-icon">
-    </a>
+    </a> -->
     <!-- End Card -->
 </div>
 
