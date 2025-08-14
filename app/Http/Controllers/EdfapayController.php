@@ -89,7 +89,7 @@ class EdfapayController extends Controller
                           $merchantPassword;
 
             $formData['hash'] = sha1(md5(strtoupper($hashString)));
-
+            session()->put('payment_hash', $formData['hash']);
             Log::info('Sending Edfapay Initiate Request:', $formData);
 
             // Make the POST request to Edfapay's initiate endpoint
@@ -214,7 +214,7 @@ class EdfapayController extends Controller
             'payement_gateway_status'=>"SUCCESS"
         ]);
         }
-        if($request->result =="DECLINED" &&  $request->status =="DECLINED" )
+        if($request->result =="DECLINED" )
         {
             $order = Order::find($request->order_id)->update([
                  'payment_token' => $request->trans_id,
@@ -340,5 +340,61 @@ class EdfapayController extends Controller
 
         // Edfapay expects a 200 OK response to confirm receipt of the callback
         return response('OK', 200);
+    }
+
+    // Error logs
+    public function storeErrorLogs(Request $request)
+    {
+        // Log the JSON data received from the frontend
+        Log::info('Frontend Error: ');
+        Log::info('Frontend Error: ',$request->all());
+
+        return response()->json(['status' => 'success'], 200);
+    }
+
+
+     public function checkPaymentStatus($orderId)
+    {
+        Log::info('check status : ' , $orderId);
+        // Merchant details from your .env file
+        $order = Order::find($orderId);
+        $merchantId = config('edfapay.merchant_id');
+        $merchantSecret = config('edfapay.merchant_password');
+
+        
+        $hash = session()->get('payment_hash');
+
+        $payload = [
+            'order_id' => $orderId,
+            'merchant_id' => $merchantId,
+            "payer_ip"=> "176.44.76.222",
+            'hash' => $hash,
+        ];
+
+        try {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post('https://api.edfapay.com/payment/status', $payload);
+
+            // Log the request and response for debugging
+            Log::info('EdfaPay Status Check Request:', $payload);
+            Log::info('EdfaPay Status Check Response:', ['status' => $response->status(), 'body' => $response->json()]);
+
+            // Return the response body as an associative array
+            return $response->json();
+
+        } catch (\Exception $e) {
+            // Log any exceptions that occur during the API call
+            Log::error('EdfaPay API Call Failed:', [
+                'exception' => $e->getMessage(),
+                'order_id' => $orderId,
+            ]);
+
+            // Return an error response
+            return [
+                'error' => 'Failed to connect to the payment gateway.',
+                'message' => $e->getMessage()
+            ];
+        }
     }
 }

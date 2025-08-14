@@ -432,14 +432,14 @@
                                 class="text-truncate">{{translate('messages.POS-device')}}</span>
                         </a>
                     </li>
-                     <!-- <li class="navbar-vertical-aside-has-menu {{Request::is('vendor-panel/qr-code/*')?'active':''}}">
+                     <li class="navbar-vertical-aside-has-menu {{Request::is('vendor-panel/qr-code/*')?'active':''}}">
                         <a class="nav-link " href="{{route('vendor.qr-code.list')}}" title="{{translate('messages.QRcode')}}"
                         >
                             <span class="tio-notifications nav-icon"></span>
                             <span
                                 class="text-truncate">{{translate('messages.QRcode')}}</span>
                         </a>
-                    </li> -->
+                    </li>
                            
                     <!-- <li class="navbar-vertical-aside-has-menu {{Request::is('vendor-panel/business-settings/notification-setup')?'active':''}}">
                         <a class="nav-link " href="{{route('vendor.business-settings.notification-setup')}}" title="{{translate('messages.notification_setup')}}"

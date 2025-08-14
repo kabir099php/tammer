@@ -19,7 +19,7 @@
         const orderId = "{{ $order_id }}";
         let pollInterval;
         let attempts = 0;
-        const maxAttempts = 12; // Check every 5 seconds for 60 seconds (5s * 12 attempts)
+        const maxAttempts = 60; // Check every 5 seconds for 60 seconds (5s * 12 attempts)
 
         function checkPaymentStatus() {
             
@@ -28,14 +28,153 @@
                 .then(data => {
                     
                     if (data.payement_gateway_status === 'SUCCESS') {
+                        const logData = {
+                                message: "SUCCESS payment status",
+                                error: "SUCCESS",
+                                order_id: orderId,
+                                url: window.location.href,
+                                timestamp: new Date().toISOString()
+                            };
+
+                            fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(logData),
+                            }).then(response => {
+                                console.log('Error logged to backend', response);
+                            }).catch(logError => {
+                                console.error('Failed to log error to backend', logError);
+                            });
                         clearInterval(pollInterval);
                         window.location.href = `https://waslqr.com/thank-you?order_id=${orderId}`;
                     } else if (data.payement_gateway_status === 'DECLINED') {
-                        clearInterval(pollInterval);
-                        window.location.href = `https://waslqr.com/fail?order_id=${orderId}`;
+                                // check status again 
+                                fetch(`https://waslqr.com/edfapay/checkPaymentStatus/${orderId}`) // Create a new API route for this
+                                    .then(response => response.json())
+                                    .then(data => { 
+                                        if (data.responseBody.status === 'SUCCESS') {
+                                            const logData = {
+                                                    message: "SUCCESS--22 payment status",
+                                                    error: "SUCCESS",
+                                                    order_id: orderId,
+                                                    url: window.location.href,
+                                                    timestamp: new Date().toISOString()
+                                                };
+
+                                                fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    body: JSON.stringify(logData),
+                                                }).then(response => {
+                                                    console.log('Error logged to backend', response);
+                                                }).catch(logError => {
+                                                    console.error('Failed to log error to backend', logError);
+                                                });
+                                            clearInterval(pollInterval);
+                                            window.location.href = `https://waslqr.com/thank-you?order_id=${orderId}`;
+                                        }
+                                        else{
+                                            // Log the error to your Laravel backend
+                                            const logData = {
+                                                message: "DECLINED --22  checking payment status",
+                                                error: JSON.stringify(error),
+                                                order_id: orderId,
+                                                url: window.location.href,
+                                                timestamp: new Date().toISOString()
+                                            };
+
+                                            fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(logData),
+                                            }).then(response => {
+                                                console.log('Error logged to backend', response);
+                                            }).catch(logError => {
+                                                console.error('Failed to log error to backend', logError);
+                                            });
+                                                
+                                        console.error('Error checking payment status:', error);
+                                        clearInterval(pollInterval);
+                                        window.location.href = `https://waslqr.com/fail?order_id=${orderId}`;
+                                        }
+
+                                    }).catch(error => {
+                                        // Log the error to your Laravel backend
+                                            const logData = {
+                                                message: "Error checking payment status",
+                                                error: JSON.stringify(error),
+                                                order_id: orderId,
+                                                url: window.location.href,
+                                                timestamp: new Date().toISOString()
+                                            };
+
+                                            fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify(logData),
+                                            }).then(response => {
+                                                console.log('Error logged to backend', response);
+                                            }).catch(logError => {
+                                                console.error('Failed to log error to backend', logError);
+                                            });
+                                                
+                                        console.error('Error checking payment status:', error);
+                                        clearInterval(pollInterval);
+                                        window.location.href = `https://waslqr.com/fail?order_id=${orderId}`;
+                                    })
+                                    // check status again 
+                        //   const logData = {
+                        //         message: " DECLINED - Error checking payment status",
+                        //         error: "DECLINED",
+                        //         order_id: orderId,
+                        //         url: window.location.href,
+                        //         timestamp: new Date().toISOString()
+                        //     };
+
+                        //     fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                        //         method: 'POST',
+                        //         headers: {
+                        //             'Content-Type': 'application/json',
+                        //         },
+                        //         body: JSON.stringify(logData),
+                        //     }).then(response => {
+                        //         console.log('Error logged to backend', response);
+                        //     }).catch(logError => {
+                        //         console.error('Failed to log error to backend', logError);
+                        //     });
+                        // clearInterval(pollInterval);
+                        // window.location.href = `https://waslqr.com/fail?order_id=${orderId}`;
                     } else {
                         attempts++;
                         if (attempts >= maxAttempts) {
+                            
+                            const logData = {
+                                message: "maxAttempts - Error checking payment status",
+                                error: "maxAttempts  timed out",
+                                order_id: orderId,
+                                url: window.location.href,
+                                timestamp: new Date().toISOString()
+                            };
+
+                            fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(logData),
+                            }).then(response => {
+                                console.log('Error logged to backend', response);
+                            }).catch(logError => {
+                                console.error('Failed to log error to backend', logError);
+                            });
                             clearInterval(pollInterval);
                             // If max attempts reached and still not complete/failed, redirect to a pending page
                             window.location.href = `https://waslqr.com/fail?order_id=${orderId}`;
@@ -43,15 +182,94 @@
                     }
                 })
                 .catch(error => {
+                    // check status again 
+                    fetch(`https://waslqr.com/edfapay/checkPaymentStatus/${orderId}`) // Create a new API route for this
+                        .then(response => response.json())
+                        .then(data => { 
+                            if (data.responseBody.status === 'SUCCESS') {
+                                const logData = {
+                                        message: "SUCCESS--22 payment status",
+                                        error: "SUCCESS",
+                                        order_id: orderId,
+                                        url: window.location.href,
+                                        timestamp: new Date().toISOString()
+                                    };
+
+                                    fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify(logData),
+                                    }).then(response => {
+                                        console.log('Error logged to backend', response);
+                                    }).catch(logError => {
+                                        console.error('Failed to log error to backend', logError);
+                                    });
+                                clearInterval(pollInterval);
+                                window.location.href = `https://waslqr.com/thank-you?order_id=${orderId}`;
+                            }
+                            else{
+                                // Log the error to your Laravel backend
+                                const logData = {
+                                    message: "DECLINED --22  checking payment status",
+                                    //error: JSON.stringify(error),
+                                    order_id: orderId,
+                                    url: window.location.href,
+                                    timestamp: new Date().toISOString()
+                                };
+
+                                fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(logData),
+                                }).then(response => {
+                                    console.log('Error logged to backend', response);
+                                }).catch(logError => {
+                                    console.error('Failed to log error to backend', logError);
+                                });
+                                    
+                            console.error('Error checking payment status:', error);
+                            clearInterval(pollInterval);
+                            window.location.href = `https://waslqr.com?order_id=${orderId}`;
+                            }
+
+                        }).catch(error => {
+                            // Log the error to your Laravel backend
+                                const logData = {
+                                    message: "catch Error-22 checking payment status",
+                                    //error: JSON.stringify(error),
+                                    order_id: orderId,
+                                    url: window.location.href,
+                                    timestamp: new Date().toISOString()
+                                };
+
+                                fetch('https://waslqr.com/edfapay/storeErrorLogs', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(logData),
+                                }).then(response => {
+                                    console.log('Error logged to backend', response);
+                                }).catch(logError => {
+                                    console.error('Failed to log error to backend', logError);
+                                });
+                                    
+                            console.error('Error checking payment status:', error);
+                            clearInterval(pollInterval);
+                            window.location.href = `https://waslqr.com?order_id=${orderId}`;
+                        })
+                        // check status again 
+
                     
-                    console.error('Error checking payment status:', error);
-                    clearInterval(pollInterval);
-                    window.location.href = `https://waslqr.com/fail?order_id=${orderId}`;
                 });
         }
 
         // Start polling every 5 seconds
-        pollInterval = setInterval(checkPaymentStatus, 5000);
+        pollInterval = setInterval(checkPaymentStatus, 1000);
         checkPaymentStatus(); // Check immediately on load
     </script>
 </body>

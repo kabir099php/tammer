@@ -721,7 +721,7 @@ class HomeController extends Controller
     public function invoice (Request $request , $id )
     {
         
-        $order = Order::where(['id' => $id, 'store_id' => 1])->first();
+        $order = Order::where(['id' => $id])->first();
         $this->downloadInvoice($order) ; 
         return view('new_code.invoice', compact('order'));
 

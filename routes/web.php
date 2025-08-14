@@ -34,6 +34,9 @@ use App\Http\Controllers\EdfapayController;
 
 Route::any('edfapay', 'EdfapayController@initiatePayment')->name('initiatePayment');
 Route::any('edfapay/callback', 'EdfapayController@handleCallback')->name('handleCallback');
+Route::any('edfapay/storeErrorLogs', 'EdfapayController@storeErrorLogs')->name('storeErrorLogs');
+Route::any('edfapay/checkPaymentStatus/{id}', 'EdfapayController@checkPaymentStatus')->name('checkPaymentStatus');
+
 
 
 Route::get('/barcode-test', function (Request $request) {
