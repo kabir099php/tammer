@@ -7634,4 +7634,5 @@ Smartly or Earn. ',
   'Vendor Registration' => 'Vendor Registration',
   'Demo' => 'Demo',
   'Why' => 'Why',
+  'Please_select_items_from_the_same_store' => 'Please select items from the same store',
 );

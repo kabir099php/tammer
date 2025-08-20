@@ -269,7 +269,7 @@
             }
 
             productsData.forEach(product => {
-                const productIdSlug = product.name_en.toLowerCase().replace(/\s/g, '-').replace(/[^a-z0-9-]/g, '');
+                const productIdSlug = product.id;  //product.name_en.toLowerCase().replace(/\s/g, '-').replace(/[^a-z0-9-]/g, '');
                 const productName = lang === 'ar' ? product.name_ar : product.name_en;
                 const productPrice = product.price.toFixed(2);
                 // Combined price and unit for display
@@ -322,24 +322,55 @@
             });
         }
 
-        function handleQuantityButtonClick(event) {
-            const action = event.target.dataset.action;
-            const targetId = event.target.dataset.target;
-            const input = document.getElementById(targetId);
-            let currentValue = parseFloat(input.value); // Use parseFloat for 0.5 step
+        // function handleQuantityButtonClick(event) {
+        //     const action = event.target.dataset.action;
+        //     const targetId = event.target.dataset.target;
+        //     const input = document.getElementById(targetId);
+        //     let currentValue = parseFloat(input.value); // Use parseFloat for 0.5 step
 
-            if (action === 'increment') {
-                input.value = (currentValue + 1).toFixed(1); // Increment by 1, format to 1 decimal
-            } else if (action === 'decrement') {
-                if (currentValue > 0) {
-                    input.value = (currentValue - 1).toFixed(1); // Decrement by 1, format to 1 decimal
-                    if (parseFloat(input.value) < 0) { // Ensure it doesn't go below 0
-                        input.value = "0.0";
-                    }
-                }
+        //     if (action === 'increment') {
+        //         input.value = (currentValue + 1).toFixed(1); // Increment by 1, format to 1 decimal
+        //     } else if (action === 'decrement') {
+        //         if (currentValue > 0) {
+        //             input.value = (currentValue - 1).toFixed(1); // Decrement by 1, format to 1 decimal
+        //             if (parseFloat(input.value) < 0) { // Ensure it doesn't go below 0
+        //                 input.value = "0.0";
+        //             }
+        //         }
+        //     }
+        //     updateTotal();
+        // }
+        function handleQuantityButtonClick(event) {
+    const action = event.target.dataset.action;
+    // Find the closest parent li element
+    const listItem = event.target.closest('li');
+    // Find the input element within that specific list item
+    const input = listItem.querySelector('input[type="number"]');
+
+    if (!input) {
+        return; // Exit if no input is found
+    }
+
+    let currentValue = parseFloat(input.value);
+    
+    // Use the action to determine whether to increment or decrement
+    if (action === 'increment') {
+        // Increment by the step value defined in the input, or 1 if not defined.
+        const step = parseFloat(input.step) || 1; 
+        input.value = (currentValue + step);
+    } else if (action === 'decrement') {
+        // Decrement, but don't go below 0
+        const step = parseFloat(input.step) || 1; 
+        if (currentValue > 0) {
+            input.value = (currentValue - step);
+            if (parseFloat(input.value) < 0) {
+                input.value = 0;
             }
-            updateTotal();
         }
+    }
+
+    updateTotal();
+}
 
         // Function to fetch products from the API
         async function fetchProducts() {

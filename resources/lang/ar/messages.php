@@ -7600,4 +7600,8 @@ Smartly or Earn. ',
   'terminal_id...' => 'Terminal id...',
   'Checkout' => 'Checkout',
   'Store_name' => 'Store name',
+  'Select' => 'Select',
+  'Select QR Code Type' => 'Select QR Code Type',
+  'QR Code Generator' => 'QR Code Generator',
+  'الاسم الافتراضي مطلوب' => 'الاسم الافتراضي مطلوب',
 );

@@ -538,7 +538,7 @@ class HomeController extends Controller
                     $item_from_db = Item::where('id',$item['id'])->first();
                 }
                 else{
-                    $item_from_db = Item::where('slug',$item['id'])->first();
+                    $item_from_db = Item::where('id',$item['id'])->first();
                 }
                 
                 $actualPricePerKg = $item['price_per_kg'];
@@ -695,8 +695,9 @@ class HomeController extends Controller
     public function thankyou ( Request $request)
     {        
         $order  = Order::find($request->order_id);
+
         
-        return view('new_code.thankyou');
+        return view('new_code.thankyou',compact('order'));
     }
     public function fail ( Request $request)
     {        

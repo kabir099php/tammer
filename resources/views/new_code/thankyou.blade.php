@@ -115,7 +115,7 @@
         <a href="#" id="downloadInvoiceButton" class="w-full sm:w-auto px-8 py-4 bg-[#00AD78] text-white font-bold rounded-lg shadow-lg hover:bg-[#00261B] focus:outline-none focus:ring-2 focus:ring-[#00E6A0] focus:ring-opacity-75 transition duration-300 ease-in-out transform hover:scale-105 fade-in delay-300" data-key="viewReceiptButton">
                 @if($currentLang === 'ar') عرض الإيصال @else View Receipt @endif
             </a>
-            <a href="/checkout" class="mt-4 text-[#00AD78] hover:underline fade-in delay-400" data-key="continueShoppingLink">
+            <a href="/checkout?store_id={{$order->store_id}}" class="mt-4 text-[#00AD78] hover:underline fade-in delay-400" data-key="continueShoppingLink">
                 @if($currentLang === 'ar') متابعة التسوق @else Continue Shopping @endif
             </a>
         </div>
