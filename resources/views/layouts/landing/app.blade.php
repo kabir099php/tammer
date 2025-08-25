@@ -92,6 +92,30 @@ $countryCode= strtolower($country?$country->value:'auto');
                         <span></span>
                         <span></span>
                     </div>
+                    @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
+                    <div class="dropdown--btn-hover position-relative " style="margin-left: 10px;">
+                        <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center" href="javascript:void(0)" style="background:#EDAA4B; color:white;">
+                            <span class="me-1">{{ translate('Join us') }}</span>
+                            <!-- <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M6.00224 5.46105L1.33333 0.415128C1.21002 0.290383 1 0.0787335 1 0.0787335C1 0.0787335 0.708488 -0.0458817 0.584976 0.0788632L0.191805 0.475841C0.0680976 0.600389 7.43292e-08 0.766881 7.22135e-08 0.9443C7.00978e-08 1.12172 0.0680976 1.28801 0.191805 1.41266L5.53678 6.80682C5.66068 6.93196 5.82624 7.00049 6.00224 7C6.17902 7.00049 6.34439 6.93206 6.46839 6.80682L11.8082 1.41768C11.9319 1.29303 12 1.12674 12 0.949223C12 0.771804 11.9319 0.605509 11.8082 0.480765L11.415 0.0838844C11.1591 -0.174368 10.9225 0.222512 10.6667 0.480765L6.00224 5.46105Z"
+                                    fill="#000000" />
+                            </svg> -->
+                        </a>
+
+                        <ul class="dropdown-list">
+                            @if ($toggle_store_registration)
+                            <li>
+                                <a class="" href="{{ route('restaurant.create') }}">
+                                    {{ translate('messages.Vendor Registration') }}
+                                </a>
+                            </li>
+                            
+                        @endif
+                        
+                        </ul>
+                    </div>
+                    @endif
                     @php( $local = session()->has('landing_local')?session('landing_local'):null)
                     @php($lang = \App\Models\BusinessSetting::where('key', 'system_language')->first())
                     @if ($lang)
@@ -129,54 +153,7 @@ $countryCode= strtolower($country?$country->value:'auto');
                             <a class="cmn--btn me-xl-auto py-2" href="{{ $fixed_link['web_app_url'] }}" target="_blank">{{ translate('messages.browse_web') }}</a>
                         </div>
                     @endif
-                    @if (isset($toggle_dm_registration) || isset($toggle_store_registration))
-                    <div class="dropdown--btn-hover position-relative " style="margin-left: 10px;">
-                        <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center" href="javascript:void(0)" style="background:#EDAA4B; color:white;">
-                            <span class="me-1">{{ translate('Join us') }}</span>
-                            <!-- <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M6.00224 5.46105L1.33333 0.415128C1.21002 0.290383 1 0.0787335 1 0.0787335C1 0.0787335 0.708488 -0.0458817 0.584976 0.0788632L0.191805 0.475841C0.0680976 0.600389 7.43292e-08 0.766881 7.22135e-08 0.9443C7.00978e-08 1.12172 0.0680976 1.28801 0.191805 1.41266L5.53678 6.80682C5.66068 6.93196 5.82624 7.00049 6.00224 7C6.17902 7.00049 6.34439 6.93206 6.46839 6.80682L11.8082 1.41768C11.9319 1.29303 12 1.12674 12 0.949223C12 0.771804 11.9319 0.605509 11.8082 0.480765L11.415 0.0838844C11.1591 -0.174368 10.9225 0.222512 10.6667 0.480765L6.00224 5.46105Z"
-                                    fill="#000000" />
-                            </svg> -->
-                        </a>
-
-                        <ul class="dropdown-list">
-                            @if ($toggle_store_registration)
-                            <li>
-                                <a class="" href="{{ route('restaurant.create') }}">
-                                    {{ translate('messages.Vendor Registration') }}
-                                </a>
-                            </li>
-                            
-                        @endif
-                        
-                        </ul>
-                    </div>
-
-                    <!-- <div class="dropdown--btn-hover position-relative" style="margin-left:20px">
-                        <a class="dropdown--btn header--btn text-capitalize d-flex align-items-center" href="javascript:void(0)">
-                            <span class="me-1">{{translate("messages.Login")}}</span>
-                            <svg width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M6.00224 5.46105L1.33333 0.415128C1.21002 0.290383 1 0.0787335 1 0.0787335C1 0.0787335 0.708488 -0.0458817 0.584976 0.0788632L0.191805 0.475841C0.0680976 0.600389 7.43292e-08 0.766881 7.22135e-08 0.9443C7.00978e-08 1.12172 0.0680976 1.28801 0.191805 1.41266L5.53678 6.80682C5.66068 6.93196 5.82624 7.00049 6.00224 7C6.17902 7.00049 6.34439 6.93206 6.46839 6.80682L11.8082 1.41768C11.9319 1.29303 12 1.12674 12 0.949223C12 0.771804 11.9319 0.605509 11.8082 0.480765L11.415 0.0838844C11.1591 -0.174368 10.9225 0.222512 10.6667 0.480765L6.00224 5.46105Z"
-                                    fill="#000000" />
-                            </svg>
-                        </a>
-
-                        <ul class="dropdown-list">
-                            @if ($toggle_store_registration)
-                            <li>
-                                <a class="" href="{{env('APP_URL')}}/login/vendor">
-                                    {{translate("messages.Vendor Login")}}
-                                    
-                                </a>
-                            </li>
-                           
-                        @endif
-                        
-                        </ul>
-                    </div> -->
-                    @endif
+                    
                 </div>
             </div>
         </div>

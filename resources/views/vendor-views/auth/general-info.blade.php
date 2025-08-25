@@ -37,7 +37,7 @@
             <!-- Page Header -->
             <div class="section-header">
                 <h2 class="title mb-2">{{ translate('messages.vendor') }} <span
-                        class="text--base">{{ translate('application') }}</span></h2>
+                        class="text--base">{{ translate('messages.application') }}</span></h2>
             </div>
             @php($language = \App\Models\BusinessSetting::where('key', 'language')->first())
             @php($language = $language->value ?? null)
@@ -130,7 +130,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             @if ($language)
-                                                <div class="lang_form" id="default-form">
+                                                <!-- <div class="lang_form" id="default-form">
                                                     <input type="hidden" name="lang[]" value="default">
                                                     <div class="">
                                                         <div class="form-group mb-0">
@@ -141,7 +141,7 @@
                                                                 class="form-control __form-control">{{ old('address.0') }}</textarea>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 @foreach (json_decode($language) as $key => $lang)
                                                     <div class="d-none lang_form" id="{{ $lang }}-form">
                                                         <input type="hidden" name="lang[]" value="{{ $lang }}">
@@ -408,7 +408,7 @@
                                     class="cmn--btn btn--secondary shadow-none rounded-md border-0 outline-0">{{ translate('Reset') }}</button>
                                 <button
                                     type="{{ \App\CentralLogics\Helpers::subscription_check() == 1 ? 'button' : 'submit' }}"
-                                    id="show-business-plan-div"
+                                    id="show-business-plan-div" style="background: #EDAA4B;"
                                     class="cmn--btn rounded-md border-0 outline-0">{{ translate('Submit') }}</button>
                             </div>
                         </div>

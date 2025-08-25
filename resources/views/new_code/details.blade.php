@@ -66,7 +66,7 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        background-color: white;
+        background-color: #DBDAD6;
         padding: 5px 0;
         overflow: hidden;
         white-space: nowrap;
@@ -191,10 +191,10 @@
                 contactNumber: contact,
                 locationLabel: "Location:",
                 locationValue: "Riyadh",
-                overallSatisfaction: "Overall Satisfaction",
-                positivePercentage: "100% Positive",
-                basedOn: "Based on",
-                reviewCount: "233 Reviews",
+                // overallSatisfaction: "Overall Satisfaction",
+                // positivePercentage: "100% Positive",
+                // basedOn: "Based on",
+                // reviewCount: "233 Reviews",
                 productPricesHeading: "Product Prices",
                 currencyUnit: "SAR/kg",
                 qrCodeHeading: "Scan for More Details",
@@ -214,10 +214,10 @@
                 contactNumber: contact,
                 locationLabel: "الموقع:",
                 locationValue: "الرياض-تعمير",
-                overallSatisfaction: "التقييمات",
-                positivePercentage: "100% إيجابي",
-                basedOn: "بناءً على",
-                reviewCount: "233 مراجعة",
+                // overallSatisfaction: "التقييمات",
+                // positivePercentage: "100% إيجابي",
+                // basedOn: "بناءً على",
+                // reviewCount: "233 مراجعة",
                 productPricesHeading: "أسعار المنتجات",
                 currencyUnit:  currency + " /كجم",
                 qrCodeHeading: "امسح للحصول على مزيد من التفاصيل",
@@ -363,10 +363,10 @@
                 document.querySelector('[data-key="crValue"]').classList.remove('ml-1');
                 document.querySelector('[data-key="crValue"]').classList.add('mr-1');
 
-                document.getElementById('satisfaction-left').classList.remove('text-left');
-                document.getElementById('satisfaction-left').classList.add('text-right');
-                document.getElementById('satisfaction-right').classList.remove('text-right');
-                document.getElementById('satisfaction-right').classList.add('text-left');
+                // document.getElementById('satisfaction-left').classList.remove('text-left');
+                // document.getElementById('satisfaction-left').classList.add('text-right');
+                // document.getElementById('satisfaction-right').classList.remove('text-right');
+                // document.getElementById('satisfaction-right').classList.add('text-left');
             } else {
                 body.classList.remove('rtl');
                 html.removeAttribute('dir');

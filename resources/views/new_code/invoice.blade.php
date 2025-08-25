@@ -119,6 +119,9 @@
         }
     </style>
 </head>
+<?php
+$vendor = \App\Models\Vendor::find($order->store->vendor_id);
+?>
 <body>
     <div class="content container">
         <div id="printableArea">

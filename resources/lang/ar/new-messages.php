@@ -1,6 +1,7 @@
 <?php return array (
   'requested_amount' => 'Requested amount',
   'owner_name' => 'Owner name',
+  'Demo' => 'Demo',
   'bank_account_no.' => 'Bank account no.',
   'clicking_on_the_map_will_set_Latitude_and_Longitude_automatically' => 'Clicking on the map will set Latitude and Longitude automatically',
   'Additional Charge' => 'Additional Charge',

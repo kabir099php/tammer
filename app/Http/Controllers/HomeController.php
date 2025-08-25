@@ -736,6 +736,7 @@ class HomeController extends Controller
     {
         Log::info("Starting PDF generation for Order: " . $order->id);
         $vendor = Vendor::find($order->store->vendor_id);
+        
         $data = [
             'order' => $order,
             'vendor' =>$vendor,
@@ -743,7 +744,7 @@ class HomeController extends Controller
             // Ensure helper functions like \App\CentralLogics\Helpers::format_currency
             // and \App\Models\BusinessSetting are correctly accessible or mocked if needed.
         ];
-
+        
         // Ensure this Blade file is actually empty or just has minimal HTML for this test
         $html = view('new_code.invoice', $data)->render();
         Log::info("Rendered HTML length: " . strlen($html));

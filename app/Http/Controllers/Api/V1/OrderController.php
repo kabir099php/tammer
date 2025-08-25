@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use MatanYadaev\EloquentSpatial\Objects\Point;
 use Illuminate\Support\Facades\Session;
+use stdClass;
 
 class OrderController extends Controller
 {
@@ -2221,7 +2222,34 @@ class OrderController extends Controller
         }
        
         $order_request = new Request();
-        $order_request['order_amount'] =  $request->total_amount;
+        //pos 
+        if($request->vendor_id)
+        {
+            $vendor = Vendor::find($request->vendor_id);
+            if($vendor->vat)
+            {
+                
+                $order_request['vatpr'] = 15;    
+            }
+            else{
+                $order_request['vatpr'] = 0;    
+            }
+        }
+        else{
+            //web
+            $order_request['vatpr'] = isset($request->vatpr) ? $request->vatpr : 0;
+        }
+        
+        if($order_request['vatpr'] != 0 )
+        {
+            $order_request['vatamt'] =  round((($request->total_amount * $order_request['vatpr']) / 100 ) ,2 ) ;
+            $order_request['order_amount'] = round(( $request->total_amount + $order_request['vatamt']),2);
+        }
+        else{
+            $order_request['vatamt'] =  0;
+            $order_request['order_amount'] =  $request->total_amount;
+        }
+        
         $order_request['payment_method'] = "digital_payment";
         $order_request['order_type'] = "take_away";
         $order_request['store_id'] = $item['store_id'];
@@ -2229,8 +2257,8 @@ class OrderController extends Controller
         $order_request['contact_person_name'] = $request->customer_name;
         $order_request['contact_person_number'] = $request->customer_email;
         $order_request['contact_person_email'] = $request->customer_phone;
-        $order_request['vatpr'] = isset($request->vatpr) ? $request->vatpr : 0;
-        $order_request['vatamt'] = isset($request->vatamt) ? $request->vatamt : 0;
+        
+        
         
         
 
@@ -2244,6 +2272,29 @@ class OrderController extends Controller
             {
                 session()->put('last_placed_order_id', $order->original['order_id']);
                session::put('order_id', $order->original['order_id']);
+               $order->original['invoice_url'] = "https://waslqr.com/invoice/".$order->original['order_id'];
+               $order_details = OrderDetail::where('order_id',$order->original['order_id'])->get();
+               $order_data = Order::where('id',$order->original['order_id'])->first();
+               $order_product_data = array();
+               if($order_details)
+               {
+                foreach ($order_details as $key => $value) {
+                    $emptyObject = new stdClass();
+                    $emptyObject->id =  $value['item_id'];
+                    $emptyObject->quantity =  $value['quantity'];
+                    
+                    $emptyObject->name =  json_decode($value['item_details'])->name;
+                    $emptyObject->image =  json_decode($value['item_details'])->image;
+                    $emptyObject->price =  json_decode($value['item_details'])->price;
+
+                    $order_product_data[] = $emptyObject;
+                    
+                }
+               }
+               $order->original['product_details'] = $order_product_data;
+               $order->original['vatamt'] = $order_data->vatamt;
+               $order->original['subtotal'] = $order_data->order_amount - $order_data->vatamt;
+               
             return response()->json($order->original, 200);
             }
             else

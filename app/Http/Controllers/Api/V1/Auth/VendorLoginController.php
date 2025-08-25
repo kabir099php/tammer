@@ -65,7 +65,12 @@ class VendorLoginController extends Controller
                     }
                 $vendor->auth_token = $token;
                 $vendor->save();
-                return response()->json(['token' => $token,'branch_id'=>1,'store_id'=>$vendor->store->id,'store_name'=>$vendor->store->name,'vendor_id'=>$vendor->id, 'zone_wise_topic'=> $vendor->stores[0]->zone->store_wise_topic, 'module_type' => $vendor?->stores[0]?->module?->module_type], 200);
+                $vatpr= 0 ;
+                if($vendor->vat)
+                {
+                    $vatpr = 15; 
+                }
+                return response()->json(['token' => $token,'branch_id'=>1,'vatpr'=>$vatpr , 'store_id'=>$vendor->store->id,'store_name'=>$vendor->store->name,'vendor_id'=>$vendor->id, 'zone_wise_topic'=> $vendor->stores[0]->zone->store_wise_topic, 'module_type' => $vendor?->stores[0]?->module?->module_type], 200);
             }  else {
                 $errors = [];
                 array_push($errors, ['code' => 'auth-001', 'message' => translate('Credential_do_not_match,_please_try_again')]);
