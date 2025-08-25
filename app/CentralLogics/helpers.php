@@ -1147,7 +1147,7 @@ class Helpers
             $currency_symbol_position =config('currency_symbol_position');
         }
 
-        return $currency_symbol_position == 'right' ? number_format($value, config('round_up_to_digit')) . ' ' . self::currency_symbol() : self::currency_symbol() . ' ' . number_format($value, config('round_up_to_digit'));
+        return $currency_symbol_position == 'right' ? number_format($value, 2) . ' ' . self::currency_symbol() : self::currency_symbol() . ' ' . number_format($value, 2);
     }
 
     public static function sendNotificationToHttp(array|null $data)

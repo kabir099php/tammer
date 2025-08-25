@@ -7635,4 +7635,7 @@ Smartly or Earn. ',
   'Demo' => 'Demo',
   'Why' => 'Why',
   'Please_select_items_from_the_same_store' => 'Please select items from the same store',
+  'Vat No.' => 'Vat No.',
+  'Check if VAT is applicable' => 'Check if VAT is applicable',
+  'Dont have vat number' => 'Dont have vat number',
 );

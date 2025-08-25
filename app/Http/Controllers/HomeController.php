@@ -509,6 +509,8 @@ class HomeController extends Controller
         
         $currency = CustomCurrency::find($vendor->currency_id)->ar_code;
         Session::put("currencyAR",$currency) ; 
+        Session::put("vendor",$vendor) ; 
+        Session::put("store",$store) ; 
         return view('new_code.checkout',compact('store_id','currency'));
     }
 
@@ -519,7 +521,9 @@ class HomeController extends Controller
         $currencyAR  = Session::get('currencyAR');
         $checkoutItems = $checkoutIteamsData['items'];
         $overallTotal = $checkoutIteamsData['total'];
-        return view('new_code.payment' , compact('checkoutItems','overallTotal','currencyAR'));
+        $vendor  = Session::get('vendor');
+        $store  = Session::get('store');
+        return view('new_code.payment' , compact('checkoutItems','overallTotal','currencyAR','vendor','store'));
     }
     public function processCheckout(Request $request)
     {
@@ -731,9 +735,10 @@ class HomeController extends Controller
     public function downloadInvoice(Order $order)
     {
         Log::info("Starting PDF generation for Order: " . $order->id);
-
+        $vendor = Vendor::find($order->store->vendor_id);
         $data = [
             'order' => $order,
+            'vendor' =>$vendor,
             // Any other data needed in your invoice Blade.
             // Ensure helper functions like \App\CentralLogics\Helpers::format_currency
             // and \App\Models\BusinessSetting are correctly accessible or mocked if needed.

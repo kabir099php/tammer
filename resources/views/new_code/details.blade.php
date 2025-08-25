@@ -59,6 +59,31 @@
             transform: translateY(-50%);
         }
     }
+
+    /* Marquee Styles */
+    .marquee-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        padding: 5px 0;
+        overflow: hidden;
+        white-space: nowrap;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .marquee-text {
+        display: inline-block;
+        font-family: 'Noto Sans Arabic', sans-serif;
+        animation: marquee 30s linear infinite;
+        font-size: 0.75rem; /* text-xs */
+        font-weight: 600; /* font-semibold */
+        color: #000; /* black font */
+    }
+    @keyframes marquee {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+    }
     </style>
 </head>
 <?php
@@ -84,9 +109,6 @@
                     <div class="flex-shrink-0">
                         @if($store->logo)
                         <img src="{{url('/storage/app/public/store/')}}/{{$store->logo}}" style=" max-width:50px">
-                        <!-- <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-inner">
-                            
-                        </div> -->
                         @else
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-3xl font-bold text-white shadow-inner">O</div>
                         @endif
@@ -113,17 +135,7 @@
                     </p>
                 </div>
 
-                <div class="bg-white bg-opacity-20 p-4 rounded-lg flex items-center justify-between shadow-md mb-8">
-                    <div class="text-white text-center" id="satisfaction-left">
-                        <p class="text-sm " style="text-align:center" data-key="overallSatisfaction"></p>
-                        <div class="star-rating mb-1"></div>
-                    </div>
-                    <div id="satisfaction-right">
-                        <p style="text-align:center" class="text-sm" data-key="basedOn"></p>
-                        <p class="text-2xl font-bold" data-key="reviewCount"></p>
-                    </div>
                 </div>
-            </div>
 
             <div class="text-center mt-auto fade-in delay-300">
                 <h2 class="text-2xl font-bold text-white mb-4 border-b-2 border-[#EDAA4B] pb-2 heading-rtl-align" data-key="qrCodeHeading"></h2> <div class="bg-white p-6 rounded-lg inline-block shadow-lg border-2 border-[#EDAA4B]" style="padding: 1rem !important"> <div id="qrcode" class="w-44 h-44 rounded-md mx-auto transform transition-transform duration-300 hover:scale-105" style="height:10rem !important;"></div>
@@ -138,8 +150,7 @@
                 <div class="mb-8 fade-in delay-200 flex-grow scroll-container">
                 <ul id="product-list" class="space-y-4 scroll-content"></ul>
                 </div>
-                <!-- <ul id="product-list" class="space-y-4"></ul> -->
-            </div>
+                </div>
             
             <div class="absolute bottom-4 left-4 z-10 flex items-center flex-row">
                 <span class="text-xs text-gray-500 font-semibold ml-2">تحت إدارة</span>
@@ -149,6 +160,13 @@
 
     
 </div>
+        </div>
+    </div>
+    <div class="marquee-container">
+        <div class="marquee-text">
+            <span>&nbsp;&nbsp;</span>
+            <span data-key="marqueeMessage"></span>
+            <span>&nbsp;&nbsp;&nbsp;</span>
         </div>
     </div>
     
@@ -185,7 +203,8 @@
                 errorLoadingProducts: "Failed to load products. Please try again later.",
                 crLabel: "CR Number :",
                 crValue: crn,
-                noProductsToDisplay: "No products to display."
+                noProductsToDisplay: "No products to display.",
+                marqueeMessage: "To view the full product catalog and order, please scan the QR code."
             },
             "ar": {
                 pageTitle: storeName,
@@ -207,7 +226,8 @@
                 errorLoadingProducts: "فشل تحميل المنتجات. الرجاء المحاولة مرة أخرى لاحقًا.",
                 crLabel: "السجل التجاري :",
                 crValue: crn,
-                noProductsToDisplay: "لا توجد منتجات لعرضها."
+                noProductsToDisplay: "لا توجد منتجات لعرضها.",
+                marqueeMessage: "لمشاهدة كتالوج المنتجات الكامل والطلب، يرجى مسح رمز الاستجابة السريعة."
             }
         };
 

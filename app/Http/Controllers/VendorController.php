@@ -138,7 +138,7 @@ class VendorController extends Controller
         //     return back()->withErrors($validator)
         //             ->withInput();
         // }
-
+        
         $vendor = new Vendor();
         $vendor->f_name = $request->f_name;
         $vendor->l_name = $request->l_name;
@@ -147,6 +147,8 @@ class VendorController extends Controller
         $vendor->password = bcrypt($request->password);
         $vendor->status = 1;
         $vendor->crn = $request->crn;
+        $vendor->vat = $request->vat;
+        
         $vendor->save();
 
         $store = new Store;

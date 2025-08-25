@@ -317,9 +317,10 @@
 
     <script>
         // Data passed from Laravel controller (accessing Blade variables)
-        const checkoutItems = @json($checkoutItems);
-        const overallTotal = @json($overallTotal);
-        const currencyAR = @json($currencyAR);
+        var checkoutItems = @json($checkoutItems);
+        var overallTotal = @json($overallTotal);
+        var currencyAR = @json($currencyAR);
+        var vendorVat = @json($vendor->vat);
         let currentLang = @json($currentLang);
 
         // Translations object
@@ -538,12 +539,24 @@
                     price_per_kg: item.price_per_kg,
                     quantity: item.quantity
                 }));
-
+                var vatpr = 0 ;
+                var vatamt = 0 ;
+                
+                if(vendorVat )
+                {
+                    vatpr = 15 ;
+                    vatamt = ((overallTotal * (vatpr/100) )).toFixed(2)
+                    overallTotal = parseFloat(overallTotal) + parseFloat(vatamt);
+                    
+                }
+                
                 const orderDetails = {
                     customer_name: customerName,
                     customer_email: customerEmail,
                     customer_phone: customerPhone,
                     total_amount: overallTotal,
+                    vatpr : vatpr,
+                    vatamt :vatamt ,
                     items: itemsToSend // Include the prepared items array
                 };
 

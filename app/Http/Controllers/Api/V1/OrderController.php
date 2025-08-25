@@ -14,6 +14,7 @@ use App\Models\Refund;
 use App\Mail\PlaceOrder;
 use App\Models\DMVehicle;
 use App\Models\Guest;
+use App\Models\Vendor;
 use App\Mail\RefundRequest;
 use App\Models\OrderDetail;
 use App\Models\ItemCampaign;
@@ -108,17 +109,36 @@ class OrderController extends Controller
             'charge_payer' => 'required_if:order_type,parcel|in:sender,receiver',
             'dm_tips' => 'nullable|numeric',
             //'guest_id' => $request->user ? 'nullable' : 'required',
-            'contact_person_name' => $request->user ? 'nullable' : 'required',
-            'contact_person_number' => $request->user ? 'nullable' : 'required',
-            'contact_person_email' => $request->user ? 'nullable' : 'required',
+            // 'contact_person_name' => $request->user ? 'nullable' : 'required',
+            // 'contact_person_number' => $request->user ? 'nullable' : 'required',
+            // 'contact_person_email' => $request->user ? 'nullable' : 'required',
             'password' => $request->create_new_user ? ['required', Password::min(8)] : 'nullable',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => Helpers::error_processor($validator)], 403);
         }
-       
-        // new guest code 
+
+        if(!isset($request->contact_person_name) || !isset($request->contact_person_number) || !isset($request->contact_person_email)  )
+        {
+            $store  = Store::find($request->store_id);
+            if($store)
+            {
+                $vendor = Vendor::find($store->vendor_id);
+                $request->contact_person_name = "faris";
+                $request->contact_person_number = "509108875";
+                $request->contact_person_email = "info@wasltech.com";
+            } 
+            else
+            {
+                $request->contact_person_name = "faris";
+                $request->contact_person_number = "509108875";
+                $request->contact_person_email = "info@wasltech.com";
+                
+            }
+        }
+        
+        // new guest code   
         
         if($request->create_guest == 1)
         {
@@ -548,6 +568,7 @@ class OrderController extends Controller
         $order->delivery_address = json_encode($address);
         $order->schedule_at = $schedule_at;
         $order->scheduled = $request->schedule_at ? 1 : 0;
+        
         $order->cutlery = $request->cutlery ? 1 : 0;
         $order->is_guest = $request->user ? 0 : 1;
         $order->otp = rand(1000, 9999);
@@ -881,7 +902,7 @@ class OrderController extends Controller
 
 
 
-            $total_price = $product_price + $total_addon_price - $store_discount_amount - $flash_sale_admin_discount_amount - $flash_sale_vendor_discount_amount  - $coupon_discount_amount;
+            $total_price = $product_price ;//+ $total_addon_price - $store_discount_amount - $flash_sale_admin_discount_amount - $flash_sale_vendor_discount_amount  - $coupon_discount_amount;
 
 
 
@@ -998,6 +1019,13 @@ class OrderController extends Controller
                 ]
             ], 203);
         }
+
+        // adding vat to order 
+        
+        $order->vatpr = $request->vatpr ? $request->vatpr : 0;
+        $order->vatamt = $request->vatamt ? $request->vatamt : 0;
+        $order->order_amount = $order->order_amount + $order->vatamt ; 
+        // adding vat to order 
         
         try {
             DB::beginTransaction();
@@ -2201,8 +2229,10 @@ class OrderController extends Controller
         $order_request['contact_person_name'] = $request->customer_name;
         $order_request['contact_person_number'] = $request->customer_email;
         $order_request['contact_person_email'] = $request->customer_phone;
+        $order_request['vatpr'] = isset($request->vatpr) ? $request->vatpr : 0;
+        $order_request['vatamt'] = isset($request->vatamt) ? $request->vatamt : 0;
         
-
+        
 
         $order = $this->place_order($order_request);
         

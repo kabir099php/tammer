@@ -127,7 +127,9 @@
                 <img src="{{url('/storage/app/public/store/')}}/{{$order->store->logo}}" style=" max-width:50px">
                 </div>
                 <div class="store-name">{{ $order->store->name }} </div>
-                <div class="header-info-line">VAT No: 0000000000 </div>
+                @if($vendor->vat)
+                <div class="header-info-line">VAT No: {{$vendor->vat}} </div>
+                @endif
                 <div class="header-info-line">Invoice No: {{ $order->id}}</div>
                 <div class="header-info-line">Date: {{Carbon\Carbon::parse($order->created_at)->format('d/m/Y h:i:s A')}}</div>
             </div>
@@ -139,7 +141,7 @@
                             <th>Item Name</th>
                             <th>Qty</th>
                             <th class="text-right">Price</th>
-                            <th class="text-right">Total<br>with VAT</th>
+                            <th class="text-right">Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -157,9 +159,9 @@
                                 @php($item = json_decode($detail->item_details, true))
                             <td>{{ $item['name'] }}</td>
                             <td class="text-center">{{ $detail['quantity'] }}</td>
-                            <td class="text-right">@php($amount = $detail['price'] * $detail['quantity'])
-                                        {{ \App\CentralLogics\Helpers::format_currency($amount) }}</td>
-                            <td class="text-right">@php($amount = $detail['price'] * $detail['quantity'])
+                            <td class="text-right">@php($amount = $item['price'] * $detail['quantity'])
+                                       {{ \App\CentralLogics\Helpers::format_currency($amount) }}</td>
+                            <td class="text-right">@php($amount = $item['price'] * $detail['quantity'])
                                         {{ \App\CentralLogics\Helpers::format_currency($amount) }}</td>
                             </tr>
                             @php($sub_total += $amount)
@@ -175,11 +177,17 @@
                     <tbody>
                         <tr>
                             <td class="summary-label">Subtotal</td>
-                            <td class="text-right summary-value">{{ \App\CentralLogics\Helpers::format_currency($order->order_amount) }}</td>
+                            <td class="text-right summary-value"> {{ \App\CentralLogics\Helpers::format_currency($amount) }}</td>
                         </tr>
                         <tr>
+                            @if($vendor->vat)
+                            <td class="summary-label">VAT %15</td>
+                            <td class="text-right summary-value">{{ \App\CentralLogics\Helpers::format_currency($order->vatamt) }}</td>
+                            @else
                             <td class="summary-label">VAT %0</td>
                             <td class="text-right summary-value">{{ \App\CentralLogics\Helpers::format_currency(0) }}</td>
+                            @endif
+                            
                         </tr>
                         <tr class="total-row">
                             <td class="summary-label">Total with VAT</td>

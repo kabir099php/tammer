@@ -440,6 +440,7 @@ Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function (
             Route::get('common-conditions', 'ItemController@get_store_condition_products');
             Route::get('get-products', 'ItemController@get_products');
             Route::get('get-products-demo', 'ItemController@get_products_demo');
+            Route::get('get-products-search', 'ItemController@getProductsSearch');
             Route::get('get-products-demo-app', 'ItemController@get_products_demo1');
         });
 

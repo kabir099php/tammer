@@ -934,6 +934,31 @@ class ItemController extends Controller
         // create a blank object and add 
         return response()->json($products);
     }
+    public function getProductsSearch ( Request $request)
+    {
+        if(!isset($request->store_id))
+        {
+            return response()->json([
+                'errors' => "store_id needed"
+            ], 403);
+        }
+        $limit = $request->limit ? $request->limit : 30;
+        $page = $request->page ? $request->page : 1;
+        $store_id = $request->store_id ? $request->store_id : 5 ; 
+        
+        $search = $request->search;
+        if($search)
+        {
+            $products  = Item::where('name', 'like', '%' . $search . '%')->where('store_id',$store_id)->limit($limit)->paginate($limit);
+        }
+        else{
+            $products  = Item::where('store_id',$store_id)->limit($limit)->paginate($limit);
+        }
+        
+        // create a blank object and add 
+        return response()->json($products);
+    }
+    
     public function get_products_demo1 ( Request $request)
     {
         $limit = $request->limit ? $request->limit : 30;

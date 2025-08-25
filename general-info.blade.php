@@ -216,24 +216,6 @@
                                                      required>
                                             </div>
                                         </div>
-                                        <div class="col-md-4 col-lg-4 col-sm-12">
-                                            <div class="form-group" id="vat-input-container">
-                                                <label class="input-label"
-                                                    for="phone">{{ translate('messages.Vat No.') }}</label>
-                                                <input type="number" id="vat" name="vat"
-                                                    class="form-control __form-control"
-                                                    placeholder="Ex. 1234 "
-                                                     required>
-                                            </div>
-                                        </div>
-                                      <div class="col-md-4 col-lg-4 col-sm-12">
-                                        <div class="form-group"  style="display:flex; padding:40px;">
-                                            <label class="input-label" for="vat_checkbox" style=" padding:0px 10px 0px 10px;">
-                                                {{ translate('messages.Dont have vat number') }}
-                                            </label>
-                                            <input type="checkbox" id="vat_checkbox" name="is_there_no_vat" class="form-check-input" value="1">
-                                        </div>
-                                    </div>
                                          <div class="form-group d-flex flex-column justify-content-between">
                                             <label class="input-label pt-2 mb-2">
                                                 <div class="lh-1">{{ translate('messages.logo') }}<span class="text-danger">*</span></div>
@@ -648,8 +630,6 @@
         </script>
         <!-- <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script> -->
         <script>
-
-              
             "use strict";
             $("#form-id").on('submit', function(e) {
                 let response = grecaptcha.getResponse();
@@ -666,22 +646,6 @@
         <!-- <script src="https://www.google.com/recaptcha/api.js?render={{ $recaptcha['site_key'] }}"></script> -->
     @endif
     <script>
-          // Get a reference to the checkbox and the VAT number input container
-                const vatCheckbox = document.getElementById('vat_checkbox');
-                const vatInputContainer = document.getElementById('vat-input-container');
-
-                // Add an event listener to the checkbox for the 'change' event
-                vatCheckbox.addEventListener('change', (event) => {
-                    
-                    // Check if the checkbox is currently ticked
-                    if (event.target.checked) {
-                        // If it is, hide the VAT number input container
-                        vatInputContainer.style.display = 'none';
-                    } else {
-                        // If it's not, show the VAT number input container
-                        vatInputContainer.style.display = 'block';
-                    }
-                });
         $(document).on('keyup', 'input[name="password"]', function() {
             const password = $(this).val();
             const feedback = $('#password-feedback');
