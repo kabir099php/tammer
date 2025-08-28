@@ -432,6 +432,14 @@
                                 class="text-truncate">{{translate('messages.POS-device')}}</span>
                         </a>
                     </li>
+                     <li class="navbar-vertical-aside-has-menu {{Request::is('vendor-panel/settings-vendor/*')?'active':''}}">
+                        <a class="nav-link " href="{{route('vendor.settings-vendor.list.vendor.setting')}}" title="{{translate('messages.setting')}}"
+                        >
+                            <span class="tio-notifications nav-icon"></span>
+                            <span
+                                class="text-truncate">{{translate('messages.Setting')}}</span>
+                        </a>
+                    </li>
                      <li class="navbar-vertical-aside-has-menu {{Request::is('vendor-panel/qr-code/*')?'active':''}}">
                         <a class="nav-link " href="{{route('vendor.qr-code.list')}}" title="{{translate('messages.QRcode')}}"
                         >

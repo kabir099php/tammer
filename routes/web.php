@@ -48,6 +48,7 @@ Route::get('/barcode-test', function (Request $request) {
 })->name('barcode-test');
 
 Route::get('invoice/{id}', 'HomeController@invoice')->name('invoice');
+Route::get('invoice-show/{id}', 'HomeController@invoiceShow')->name('invoice.show');
 Route::get('barcode', 'HomeController@barcode')->name('barcode');
 Route::get('barcode-final', 'HomeController@barcodeFinal')->name('barcode-final');
 Route::post('scan-barcode', 'HomeController@scanAndAddToCart')->name('scan-barcode');

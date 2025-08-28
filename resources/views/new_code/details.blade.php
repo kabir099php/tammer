@@ -92,6 +92,7 @@
         $contact = $store->phone; 
         $vendor = \App\Models\Vendor::where('id',$store->vendor_id)->first();
         $crn = $vendor->crn;
+        $detail_page_footer = $vendor->detail_page_footer;
         $currency = $currency;
         $storeId = $store->id ?? 'defaultStoreId'; 
         $storeName = $store->name ?? 'defaultStoreId'; 
@@ -178,6 +179,8 @@
         const storeName = @json($storeName);
         const currency = @json($currency);
         const crn = @json($crn);
+        const detail_page_footer = @json($detail_page_footer);
+        
 
         let productsData = [];
         let currentLang = 'ar';
@@ -204,7 +207,7 @@
                 crLabel: "CR Number :",
                 crValue: crn,
                 noProductsToDisplay: "No products to display.",
-                marqueeMessage: "To view the full product catalog and order, please scan the QR code."
+                marqueeMessage: detail_page_footer
             },
             "ar": {
                 pageTitle: storeName,
@@ -227,7 +230,7 @@
                 crLabel: "السجل التجاري :",
                 crValue: crn,
                 noProductsToDisplay: "لا توجد منتجات لعرضها.",
-                marqueeMessage: "لمشاهدة كتالوج المنتجات الكامل والطلب، يرجى مسح رمز الاستجابة السريعة."
+                marqueeMessage: detail_page_footer
             }
         };
 

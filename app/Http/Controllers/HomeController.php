@@ -732,6 +732,15 @@ class HomeController extends Controller
 
         
     }
+    public function invoiceShow (Request $request , $id )
+    {
+        
+        $order = Order::where(['id' => $id])->first();
+        //$this->downloadInvoice($order) ; 
+        return view('new_code.invoice', compact('order'));
+
+        
+    }
     public function downloadInvoice(Order $order)
     {
         Log::info("Starting PDF generation for Order: " . $order->id);

@@ -169,6 +169,12 @@ Route::group(['namespace' => 'Vendor', 'as' => 'vendor.'], function () {
             Route::delete('delete/{pos}', 'PosDeviceController@delete')->name('delete');
             
         });
+        Route::group(['prefix' => 'settings-vendor', 'as' => 'settings-vendor.', 'middleware' => ['module:settings-vendor','subscription:settings-vendor']], function () {
+            Route::get('vendor-list-setting', 'DashboardController@vednorSettingListing')->name('list.vendor.setting');
+            Route::post('vendor-update-setting', 'DashboardController@vednorSettingUpdate')->name('update.vendor.setting');
+
+            
+        });
 
         Route::group(['prefix' => 'qr-code', 'as' => 'qr-code.', 'middleware' => ['module:qr-code','subscription:qr-code']], function () {
             Route::get('list', 'QrCodeController@list')->name('list');

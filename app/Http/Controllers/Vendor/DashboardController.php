@@ -210,4 +210,22 @@ class DashboardController extends Controller
 
         return response()->json(['Token successfully stored.']);
     }
+
+    public function vednorSettingListing ( Request $request) 
+    {
+        
+        $vendor = Vendor::find(Helpers::get_vendor_id());
+        
+        return view('vendor-views.setting.index',compact('vendor'));
+
+    }
+
+    public function vednorSettingUpdate ( Request $request) 
+    {
+        
+        $vendor = Vendor::find(Helpers::get_vendor_id())->update(['detail_page_footer' => $request->detail_page_footer]);
+        $vendor = Vendor::find(Helpers::get_vendor_id());
+        return view('vendor-views.setting.index',compact('vendor'));
+
+    }
 }

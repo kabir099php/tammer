@@ -7638,4 +7638,6 @@ Smartly or Earn. ',
   'Vat No.' => 'Vat No.',
   'Check if VAT is applicable' => 'Check if VAT is applicable',
   'Dont have vat number' => 'Dont have vat number',
+  'Detail Page Footer' => 'Detail Page Footer',
+  'Setting' => 'Setting',
 );

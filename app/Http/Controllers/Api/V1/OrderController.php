@@ -2272,7 +2272,8 @@ class OrderController extends Controller
             {
                 session()->put('last_placed_order_id', $order->original['order_id']);
                session::put('order_id', $order->original['order_id']);
-               $order->original['invoice_url'] = "https://waslqr.com/invoice/".$order->original['order_id'];
+               $order->original['invoice_url'] = "https://waslqr.com/invoice-show/".$order->original['order_id'];
+               $order->original['download_invoice_url'] = "https://waslqr.com/invoice/".$order->original['order_id'];
                $order_details = OrderDetail::where('order_id',$order->original['order_id'])->get();
                $order_data = Order::where('id',$order->original['order_id'])->first();
                $order_product_data = array();
@@ -2342,6 +2343,28 @@ class OrderController extends Controller
         ]);
 
         $response = Order::find($request->order_id);
+        $response->invoice_url = "https://waslqr.com/invoice-show/".$request->order_id;
+        $response->download_invoice_url = "https://waslqr.com/invoice/".$request->order_id;
+        $order_details = OrderDetail::where('order_id',$request->order_id)->get();
+        
+        $order_product_data = array();
+        if($order_details)
+        {
+        foreach ($order_details as $key => $value) {
+            $emptyObject = new stdClass();
+            $emptyObject->id =  $value['item_id'];
+            $emptyObject->quantity =  $value['quantity'];
+            
+            $emptyObject->name =  json_decode($value['item_details'])->name;
+            $emptyObject->image =  json_decode($value['item_details'])->image;
+            $emptyObject->price =  json_decode($value['item_details'])->price;
+
+            $order_product_data[] = $emptyObject;
+            
+        }
+        }
+        $response->product_details = $order_product_data;
+        
          return response()->json($response, 200);
     }
 
